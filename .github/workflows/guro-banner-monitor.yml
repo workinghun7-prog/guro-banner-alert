@@ -1,0 +1,385 @@
+name: Guro Banner Alert
+
+on:
+  schedule:
+    - cron: '2/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: guro-banner-monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Python packages
+        run: python -m pip install --quiet requests beautifulsoup4
+
+      - name: Check Guro banner availability
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          cat > /tmp/guro_monitor.py <<'PY'
+          from __future__ import annotations
+
+          import html
+          import json
+          import os
+          from dataclasses import dataclass, asdict
+          from datetime import datetime
+          from pathlib import Path
+          from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+          from zoneinfo import ZoneInfo
+
+          import requests
+          from bs4 import BeautifulSoup
+
+          BASE_URL = (
+              "https://www.guro.go.kr/www/bannerBaseListNew.do"
+              "?dong=&searchApplyType=recru&key=1674&rep=1&searchGb=%EA%B3%B5%EA%B3%B5%EC%9A%A9"
+          )
+          STATE_PATH = Path("state.json")
+          KST = ZoneInfo("Asia/Seoul")
+          MAX_PAGES = 20
+
+          @dataclass(frozen=True)
+          class Banner:
+              number: str
+              dong: str
+              location: str
+              address: str
+              floor: str
+              status: str
+
+              @property
+              def key(self) -> str:
+                  return "|".join([
+                      self.number,
+                      self.dong,
+                      self.location,
+                      self.address,
+                      self.floor
+                  ])
+
+          def make_page_url(page_index: int) -> str:
+              parts = urlsplit(BASE_URL)
+              query = dict(parse_qsl(parts.query, keep_blank_values=True))
+              query["pageIndex"] = str(page_index)
+              query["pageUnit"] = "100"
+              return urlunsplit(
+                  (
+                      parts.scheme,
+                      parts.netloc,
+                      parts.path,
+                      urlencode(query),
+                      parts.fragment,
+                  )
+              )
+
+          def fetch_page(page_index: int) -> list[Banner]:
+              response = requests.get(
+                  make_page_url(page_index),
+                  headers={
+                      "User-Agent": "Mozilla/5.0 GuroBannerMonitor/1.0",
+                      "Accept-Language": "ko-KR,ko;q=0.9,en;q=0.8",
+                  },
+                  timeout=25,
+              )
+              response.raise_for_status()
+
+              soup = BeautifulSoup(response.content, "html.parser")
+
+              target = None
+              for table in soup.find_all("table"):
+                  text = table.get_text(" ", strip=True)
+
+                  if "게시대번호" in text and "접수현황" in text:
+                      target = table
+                      break
+
+              if target is None:
+                  raise RuntimeError(
+                      "게시대 목록 표를 찾지 못했습니다. 사이트 구조가 바뀌었을 수 있습니다."
+                  )
+
+              items = []
+
+              for row in target.find_all("tr"):
+                  cells = row.find_all("td")
+
+                  if len(cells) < 7:
+                      continue
+
+                  values = [
+                      cell.get_text(" ", strip=True)
+                      for cell in cells
+                  ]
+
+                  number = values[0]
+                  dong = values[1]
+                  location = values[2]
+                  address = values[3]
+                  floor = values[4]
+                  status = values[-1]
+
+                  if "마감" in status or "종료" in status:
+                      continue
+
+                  if not number or not location:
+                      continue
+
+                  items.append(
+                      Banner(
+                          number=number,
+                          dong=dong,
+                          location=location,
+                          address=address,
+                          floor=floor,
+                          status=status or "접수가능",
+                      )
+                  )
+
+              return items
+
+          def fetch_available() -> list[Banner]:
+              result = {}
+
+              for page in range(1, MAX_PAGES + 1):
+                  items = fetch_page(page)
+
+                  for item in items:
+                      result[item.key] = item
+
+                  if len(items) < 10:
+                      break
+
+              return sorted(
+                  result.values(),
+                  key=lambda x: (
+                      x.number.zfill(8),
+                      x.location
+                  ),
+              )
+
+          def load_state() -> dict:
+              if not STATE_PATH.exists():
+                  return {
+                      "initialized": False,
+                      "available": [],
+                  }
+
+              try:
+                  return json.loads(
+                      STATE_PATH.read_text(
+                          encoding="utf-8"
+                      )
+                  )
+              except Exception:
+                  return {
+                      "initialized": False,
+                      "available": [],
+                  }
+
+          def save_state(items: list[Banner]) -> None:
+              data = {
+                  "initialized": True,
+                  "checked_at": datetime.now(KST).isoformat(
+                      timespec="seconds"
+                  ),
+                  "available": [
+                      asdict(x)
+                      for x in items
+                  ],
+              }
+
+              STATE_PATH.write_text(
+                  json.dumps(
+                      data,
+                      ensure_ascii=False,
+                      indent=2,
+                  ) + "\n",
+                  encoding="utf-8",
+              )
+
+          def telegram(text: str) -> None:
+              token = os.environ.get(
+                  "TELEGRAM_BOT_TOKEN",
+                  "",
+              ).strip()
+
+              chat_id = os.environ.get(
+                  "TELEGRAM_CHAT_ID",
+                  "",
+              ).strip()
+
+              if not token or not chat_id:
+                  raise RuntimeError(
+                      "GitHub Secrets에 TELEGRAM_BOT_TOKEN과 TELEGRAM_CHAT_ID를 넣어주세요."
+                  )
+
+              payload = {
+                  "chat_id": chat_id,
+                  "text": text,
+                  "parse_mode": "HTML",
+                  "disable_web_page_preview": True,
+                  "reply_markup": json.dumps(
+                      {
+                          "inline_keyboard": [
+                              [
+                                  {
+                                      "text": "구로구청에서 바로 확인",
+                                      "url": BASE_URL,
+                                  }
+                              ]
+                          ]
+                      },
+                      ensure_ascii=False,
+                  ),
+              }
+
+              response = requests.post(
+                  f"https://api.telegram.org/bot{token}/sendMessage",
+                  data=payload,
+                  timeout=20,
+              )
+
+              response.raise_for_status()
+
+              if not response.json().get("ok"):
+                  raise RuntimeError(
+                      f"Telegram 전송 실패: {response.text}"
+                  )
+
+          def alert_message(
+              items: list[Banner],
+              total: int,
+          ) -> str:
+
+              lines = [
+                  "🚨 <b>구로구 현수막 접수가능 게시대 발견</b>",
+                  "",
+                  f"새로 발견: <b>{len(items)}개</b> / 현재 전체: {total}개",
+                  f"확인시각: {datetime.now(KST).strftime('%Y-%m-%d %H:%M')}",
+                  "",
+              ]
+
+              for item in items[:15]:
+                  lines += [
+                      f"📍 <b>{html.escape(item.number)}번 · {html.escape(item.dong)}</b>",
+                      html.escape(item.location),
+                      html.escape(item.address),
+                      f"{html.escape(item.floor)} · {html.escape(item.status)}",
+                      "",
+                  ]
+
+              if len(items) > 15:
+                  lines.append(
+                      f"외 {len(items) - 15}개 — 아래 버튼에서 전체를 확인하세요."
+                  )
+
+              return "\n".join(lines).strip()
+
+          def main() -> None:
+              state = load_state()
+              current = fetch_available()
+
+              old = (
+                  state.get("available", [])
+                  if state.get("initialized")
+                  else []
+              )
+
+              old_keys = {
+                  "|".join(
+                      [
+                          str(x.get("number", "")),
+                          str(x.get("dong", "")),
+                          str(x.get("location", "")),
+                          str(x.get("address", "")),
+                          str(x.get("floor", "")),
+                      ]
+                  )
+                  for x in old
+                  if isinstance(x, dict)
+              }
+
+              current_keys = {
+                  item.key
+                  for item in current
+              }
+
+              new_items = [
+                  item
+                  for item in current
+                  if item.key not in old_keys
+              ]
+
+              if not state.get("initialized"):
+                  telegram(
+                      "✅ <b>구로구 현수막 감시 시작</b>\n\n"
+                      f"현재 접수가능 게시대: {len(current)}개\n"
+                      f"확인시각: {datetime.now(KST).strftime('%Y-%m-%d %H:%M')}\n\n"
+                      "앞으로 약 5분마다 확인하고 새 자리가 생기면 알려드릴게요."
+                  )
+
+                  if current:
+                      telegram(
+                          alert_message(
+                              current,
+                              len(current),
+                          )
+                      )
+
+              elif new_items:
+                  telegram(
+                      alert_message(
+                          new_items,
+                          len(current),
+                      )
+                  )
+
+              if (
+                  not state.get("initialized")
+                  or current_keys != old_keys
+              ):
+                  save_state(current)
+                  print(
+                      f"State changed: {len(current)} available"
+                  )
+              else:
+                  print(
+                      f"No change: {len(current)} available"
+                  )
+
+          if __name__ == "__main__":
+              main()
+          PY
+
+          python /tmp/guro_monitor.py
+
+      - name: Save state change
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- state.json)" ]; then
+            echo "No state change to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add state.json
+          git commit -m "Update banner monitor state [skip ci]"
+          git push origin HEAD:${GITHUB_REF_NAME}
