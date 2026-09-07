@@ -1,38 +1,5 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-07T11:38:57+09:00",
-  "available": [
-    {
-      "number": "16",
-      "dong": "구로4동",
-      "location": "구로리공원 건너편",
-      "address": "서울 구로구 구로중앙로 4",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "86",
-      "dong": "개봉2동",
-      "location": "현대홈타운 203동 앞 담장",
-      "address": "개봉로20길 158",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "103",
-      "dong": "수궁동",
-      "location": "궁동 청소년문화의 집 건너편(우측)",
-      "address": "궁동 205",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "114",
-      "dong": "수궁동",
-      "location": "궁동저수지생태공원 앞 횡단보도 맞은편",
-      "address": "오리로23길",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    }
-  ]
+  "checked_at": "2026-09-07T11:53:09+09:00",
+  "available": []
 }
