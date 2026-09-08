@@ -1,5 +1,86 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-07T11:53:09+09:00",
-  "available": []
+  "checked_at": "2026-09-08T15:45:34+09:00",
+  "available": [
+    {
+      "number": "3",
+      "dong": "신도림동",
+      "location": "신도림 동아1차아파트 사거리",
+      "address": "신도림로 87",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "11",
+      "dong": "구로2동",
+      "location": "구로역 사거리 광장(좌측)",
+      "address": "서울특별시 구로구 경인로 572",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "29",
+      "dong": "구로1동",
+      "location": "구로1동 파출소 앞 건널목",
+      "address": "구일로 52",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "36",
+      "dong": "고척1동",
+      "location": "고척1동주민센터 입구 삼거리 펜스",
+      "address": "서울특별시 구로구 중앙로 32",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "72",
+      "dong": "오류2동",
+      "location": "오류2동주민센터 건너편 1(좌측)",
+      "address": "오류로 45",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "73",
+      "dong": "오류2동",
+      "location": "오류2동주민센터 건너편 2(우측)",
+      "address": "오류로 45",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "79",
+      "dong": "오류1동",
+      "location": "공영주차장 앞",
+      "address": "경인로19길 29",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "106",
+      "dong": "신도림동",
+      "location": "기적의 도서관, 늘사랑어린이집 앞",
+      "address": "구로중앙로40길 24(신도림동)",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "113",
+      "dong": "수궁동",
+      "location": "온수힐스테이트 정문 건너편 정진학교 앞",
+      "address": "서울특별시 구로구 부일로9길 127",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "122",
+      "dong": "구로1동",
+      "location": "구로1동우체국 앞",
+      "address": "서울 구로구 구일로 64",
+      "floor": "1단",
+      "status": "접수가능 (0/1)"
+    }
+  ]
 }
