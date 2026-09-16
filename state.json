@@ -1,22 +1,5 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-16T10:13:02+09:00",
-  "available": [
-    {
-      "number": "76",
-      "dong": "고척2동",
-      "location": "고척벽산베스트블루밍(아) 101동 앞",
-      "address": "서울특별시 구로구 고척로60길 30",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "100",
-      "dong": "오류2동",
-      "location": "오류보건지소 앞, 오류남초등학교 후면",
-      "address": "오리로10길 44-3(오류동)",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    }
-  ]
+  "checked_at": "2026-09-16T10:28:54+09:00",
+  "available": []
 }
