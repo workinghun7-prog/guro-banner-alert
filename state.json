@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-16T14:17:29+09:00",
+  "checked_at": "2026-09-16T14:48:47+09:00",
   "available": [
     {
       "number": "29",
@@ -31,14 +31,6 @@
       "dong": "구로1동",
       "location": "구로1동우체국 앞",
       "address": "서울 구로구 구일로 64",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "134",
-      "dong": "오류2동",
-      "location": "오류고가차도 배드민턴장 앞",
-      "address": "서울 구로구 오류동 90-21",
       "floor": "1단",
       "status": "접수가능 (0/1)"
     },
