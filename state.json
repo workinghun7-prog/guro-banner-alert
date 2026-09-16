@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-16T13:28:35+09:00",
+  "checked_at": "2026-09-16T14:17:29+09:00",
   "available": [
     {
       "number": "29",
@@ -31,14 +31,6 @@
       "dong": "구로1동",
       "location": "구로1동우체국 앞",
       "address": "서울 구로구 구일로 64",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "129",
-      "dong": "고척2동",
-      "location": "계남근린공원 입구",
-      "address": "서울 구로구 고척로27바길 37-12",
       "floor": "1단",
       "status": "접수가능 (0/1)"
     },
