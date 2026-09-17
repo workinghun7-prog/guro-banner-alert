@@ -1,14 +1,5 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-17T08:16:11+09:00",
-  "available": [
-    {
-      "number": "122",
-      "dong": "구로1동",
-      "location": "구로1동우체국 앞",
-      "address": "서울 구로구 구일로 64",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    }
-  ]
+  "checked_at": "2026-09-17T09:22:23+09:00",
+  "available": []
 }
