@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-17T11:37:50+09:00",
+  "checked_at": "2026-09-17T15:40:13+09:00",
   "available": [
     {
       "number": "50",
@@ -9,6 +9,14 @@
       "address": "서울특별시 구로구 경인로 18",
       "floor": "1단",
       "status": "접수가능 (0/1)"
+    },
+    {
+      "number": "60",
+      "dong": "구로2동",
+      "location": "구로경찰서 앞",
+      "address": "서울특별시 구로구 가마산로 235",
+      "floor": "2단",
+      "status": "접수가능 (1/2)"
     },
     {
       "number": "75",
