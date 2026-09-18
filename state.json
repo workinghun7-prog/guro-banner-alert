@@ -1,15 +1,7 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-18T10:42:05+09:00",
+  "checked_at": "2026-09-18T14:59:11+09:00",
   "available": [
-    {
-      "number": "7",
-      "dong": "구로2동",
-      "location": "고대병원 사거리 함흥냉면 앞",
-      "address": "가마산로 204",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
     {
       "number": "50",
       "dong": "오류2동",
