@@ -1,15 +1,7 @@
 {
   "initialized": true,
-  "checked_at": "2026-09-21T09:56:00+09:00",
+  "checked_at": "2026-09-22T00:02:04+09:00",
   "available": [
-    {
-      "number": "50",
-      "dong": "오류2동",
-      "location": "성공회대 입구 교차로",
-      "address": "서울특별시 구로구 경인로 18",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
     {
       "number": "60",
       "dong": "구로2동",
