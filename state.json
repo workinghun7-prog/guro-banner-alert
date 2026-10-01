@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-10-01T11:43:09+09:00",
+  "checked_at": "2026-10-01T13:22:23+09:00",
   "available": [
     {
       "number": "3",
@@ -167,22 +167,6 @@
       "dong": "오류1동",
       "location": "공영주차장 앞",
       "address": "경인로19길 29",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "80",
-      "dong": "구로2동",
-      "location": "CJ제일제당 앞 횡단보도 우측",
-      "address": "경인로 518",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "83",
-      "dong": "구로2동",
-      "location": "중앙유통단지 라동 앞 횡단보도 우측",
-      "address": "서울특별시 구로구 경인로53길 15",
       "floor": "1단",
       "status": "접수가능 (0/1)"
     },
