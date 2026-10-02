@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-10-02T09:40:51+09:00",
+  "checked_at": "2026-10-02T13:58:13+09:00",
   "available": [
     {
       "number": "3",
@@ -111,14 +111,6 @@
       "dong": "신도림동",
       "location": "신도림동주민센터 앞",
       "address": "신도림로 40",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "64",
-      "dong": "구로4동",
-      "location": "구로구청사거리 기업은행 앞(좌)",
-      "address": "서울 구로구 구로중앙로 60",
       "floor": "1단",
       "status": "접수가능 (0/1)"
     },
