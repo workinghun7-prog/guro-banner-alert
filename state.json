@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-10-01T16:32:16+09:00",
+  "checked_at": "2026-10-02T09:40:51+09:00",
   "available": [
     {
       "number": "3",
@@ -71,14 +71,6 @@
       "dong": "오류2동",
       "location": "천왕중학교 사거리 건널목",
       "address": "구로구 천왕로 63",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "54",
-      "dong": "오류2동",
-      "location": "오류동역 남측 2번출구 앞 2(우측)",
-      "address": "경인로 20길 13",
       "floor": "1단",
       "status": "접수가능 (0/1)"
     },
