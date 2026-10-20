@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-10-17T14:14:38+09:00",
+  "checked_at": "2026-10-20T21:59:00+09:00",
   "available": [
     {
       "number": "7",
@@ -67,14 +67,6 @@
       "status": "접수가능 (0/1)"
     },
     {
-      "number": "87",
-      "dong": "개봉2동",
-      "location": "개봉동 삼성정형외과 앞",
-      "address": "개봉로 60",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
       "number": "90",
       "dong": "오류2동",
       "location": "현대타운(후문)14동 앞",
@@ -87,14 +79,6 @@
       "dong": "구로5동",
       "location": "신구로초등학교 정문 건너편",
       "address": "구로동 108-2",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "102",
-      "dong": "수궁동",
-      "location": "궁동 청소년문화의 집 건너편(좌측)",
-      "address": "궁동 205",
       "floor": "1단",
       "status": "접수가능 (0/1)"
     },
