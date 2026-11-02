@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "checked_at": "2026-11-02T10:45:18+09:00",
+  "checked_at": "2026-11-02T17:24:31+09:00",
   "available": [
     {
       "number": "8",
@@ -175,14 +175,6 @@
       "dong": "개봉3동",
       "location": "메인팰리스 앞",
       "address": "서울 구로구 개봉로 25",
-      "floor": "1단",
-      "status": "접수가능 (0/1)"
-    },
-    {
-      "number": "134",
-      "dong": "오류2동",
-      "location": "오류고가차도 배드민턴장 앞",
-      "address": "서울 구로구 오류동 90-21",
       "floor": "1단",
       "status": "접수가능 (0/1)"
     },
